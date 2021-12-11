@@ -7,6 +7,8 @@
         <input type="text"></input>
         <button id="submit-message-button">Send message</button>
     </div>
+    <div id="websocket-data-from-server">
+    </div>
     <script>
         let websocket;
 
@@ -20,7 +22,11 @@
                 websocket.send('holy moly this is the first one!')
             };
 
-            websocket.onmessage = (event) => console.log(`received message from the server: ${event.data}`);
+            websocket.onmessage = (event) => {
+                console.log(`received message from the server: ${event.data}`);
+                const serverMessageElement = document.getElementById('websocket-data-from-server');
+                serverMessageElement.innerText = event.data;
+            }
         }
 
         const initializeWebsocketButton = document.getElementById('initialize-websocket-button');
