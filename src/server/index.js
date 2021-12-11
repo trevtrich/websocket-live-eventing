@@ -1,5 +1,6 @@
 const express = require('express');
 const http = require('http');
+const path = require('path');
 const WebSocket = require('ws');
 
 const app = express();
@@ -17,6 +18,7 @@ server.on('upgrade', function (request, socket, head) {
   });
 
   wss.on("connection", function (ws, request) {
+    console.log('preparing the connection!');
     ws.on("message", function (message) {
       console.log(`Received message ${message}`);
     });
@@ -27,6 +29,7 @@ server.on('upgrade', function (request, socket, head) {
   });
   
 app.get('/ws', (_, res) => res.send('this is a websocket endpoint. ask for an upgrade and you will get it!'));
+app.get('/', (_, res) => res.sendFile('index.html', {root: path.join(__dirname, '../client/')}));
 
 server.listen(PORT, function () {
   console.log(`Listening on http://localhost:${PORT}`);

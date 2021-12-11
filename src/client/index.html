@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <div>
+        <button id="initialize-websocket-button">Initialize websocket.</button>
+    </div>
+    <div>
+        <input type="text"></input>
+        <button id="submit-message-button">Send message</button>
+    </div>
+    <script>
+        let websocket;
+
+        function createWebSocket() {
+            console.log('were trying to make it!');
+            websocket = new WebSocket('ws://localhost:8000/ws');
+            console.log(websocket);
+
+            websocket.onopen = () => {
+                console.log('the connection is open! trying to send a message...')
+                websocket.send('holy moly this is the first one!')
+            };
+        }
+
+        const initializeWebsocketButton = document.getElementById('initialize-websocket-button');
+        initializeWebsocketButton.onclick = createWebSocket; 
+
+        function sendMessage() {
+            websocket.send(messageInput.value);
+            console.log(`sent message: ${messageInput.value}. now clearing input..`)
+            messageInput.value = '';
+        }
+
+        const messageInput = document.querySelector('input');
+        const submitMessageButton = document.getElementById('submit-message-button');
+        submitMessageButton.onclick = sendMessage;
+    </script>
+</html>
