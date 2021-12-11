@@ -26,6 +26,8 @@ server.on('upgrade', function (request, socket, head) {
     ws.on("close", function () {
       console.log("closing socket connection...");
     });
+
+    sendIntervalMessage(ws, 2000);
   });
   
 app.get('/ws', (_, res) => res.send('this is a websocket endpoint. ask for an upgrade and you will get it!'));
@@ -34,3 +36,12 @@ app.get('/', (_, res) => res.sendFile('index.html', {root: path.join(__dirname, 
 server.listen(PORT, function () {
   console.log(`Listening on http://localhost:${PORT}`);
 });
+
+let currentInterval = 0;
+function sendIntervalMessage(wsConnection, intervalInMs) {
+
+  setInterval(() => {
+    wsConnection.send(`sending message to the client: ${currentInterval}`);
+    currentInterval += 1;
+  }, intervalInMs);
+}

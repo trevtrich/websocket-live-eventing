@@ -19,6 +19,8 @@
                 console.log('the connection is open! trying to send a message...')
                 websocket.send('holy moly this is the first one!')
             };
+
+            websocket.onmessage = (event) => console.log(`received message from the server: ${event.data}`);
         }
 
         const initializeWebsocketButton = document.getElementById('initialize-websocket-button');
